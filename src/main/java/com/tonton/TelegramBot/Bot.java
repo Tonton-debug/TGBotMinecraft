@@ -26,6 +26,10 @@ public class Bot extends TelegramLongPollingBot {
     }
     Random random=new Random();
     public synchronized  void SendMessage(long id,String message) {
+    	if(message==null)
+    	{
+    		message="";
+    	}
    	 SendMessage sendMessage = new SendMessage();
      sendMessage.enableMarkdown(true);
      sendMessage.setChatId(id);
@@ -59,6 +63,6 @@ public class Bot extends TelegramLongPollingBot {
     }
     @Override
     public String getBotToken() {
-        return "Ы";
+        return "d";
     }
 }
