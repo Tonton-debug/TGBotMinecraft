@@ -15,6 +15,22 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.Keyboard
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 public class Bot extends TelegramLongPollingBot {
+	public void SendNotice() {
+		List<Long> ids=DataBase.Get().GetAllId();
+		String resultText="НА СЕРВЕР ЗАШЁЛ ИГРОК:"+((Player) Bukkit.getOnlinePlayers().toArray()[Bukkit.getOnlinePlayers().size()-1]).getName()+"\nТекущий онлайн:"+Bukkit.getOnlinePlayers().size();
+		for(long id:ids) {
+		  	 SendMessage sendMessage = new SendMessage();
+		     sendMessage.enableHtml(true);
+		     sendMessage.setChatId(id);
+		     sendMessage.setText(resultText);
+		     try {
+		      	execute(sendMessage);
+		      	
+		      } catch (TelegramApiException e) {
+		          System.out.println("ERRORRRRR Exception: "+ e.toString());
+		      }
+		}
+	}
     @Override
     public void onUpdateReceived(Update update) {
 	String s = update.getMessage().getText();
@@ -31,10 +47,10 @@ public class Bot extends TelegramLongPollingBot {
     		message="";
     	}
    	 SendMessage sendMessage = new SendMessage();
-     sendMessage.enableMarkdown(true);
+     sendMessage.enableHtml(true);
      sendMessage.setChatId(id);
     System.out.println("D:"+message+" "+message.split("/").length);
-    String exitMessage="ААА??? ЧТО ГОВОРИШЬ? ДЕРЖИ ГАЙД НА БОТА ДРУЖОК ПИРАЖОК:\n /online - показаь текущий онлайн сервера\n Ну и всё. Хули ты ещё хотел то?";
+    String exitMessage="ААА??? ЧТО ГОВОРИШЬ? ДЕРЖИ ГАЙД НА БОТА ДРУЖОК ПИРАЖОК:\n /online - показаь текущий онлайн сервера\n/noticeon - включить уведомления\n /noticeoff - выключить уведомления\n Ну и всё. Хули ты ещё хотел то?";
     
      if(message.startsWith("/")) {
      	String command=message.split("/")[1];
@@ -51,6 +67,14 @@ public class Bot extends TelegramLongPollingBot {
      		exitMessage=onlineMessage;
      		
      		break;
+     	case "noticeon":
+     		
+     		exitMessage=DataBase.Get().CreateNotice(id, true)?"Успешно":"Не успешно";
+     		break;
+     	case "noticeoff":
+     		
+     		exitMessage=DataBase.Get().RemoveNotice(id)?"Успешно":"Не успешно";
+     		break;
      	}
      }
      sendMessage.setText(exitMessage);
@@ -63,6 +87,6 @@ public class Bot extends TelegramLongPollingBot {
     }
     @Override
     public String getBotToken() {
-        return "d";
+        return "E";
     }
 }
