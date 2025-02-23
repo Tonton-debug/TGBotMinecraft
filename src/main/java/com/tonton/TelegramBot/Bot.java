@@ -15,9 +15,9 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.Keyboard
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 public class Bot extends TelegramLongPollingBot {
-	public void SendNotice() {
+	public void SendNotice(String text) {
 		List<Long> ids=DataBase.Get().GetAllId();
-		String resultText="НА СЕРВЕР ЗАШЁЛ ИГРОК:"+((Player) Bukkit.getOnlinePlayers().toArray()[Bukkit.getOnlinePlayers().size()-1]).getName()+"\nТекущий онлайн:"+Bukkit.getOnlinePlayers().size();
+		String resultText=text;
 		for(long id:ids) {
 		  	 SendMessage sendMessage = new SendMessage();
 		     sendMessage.enableHtml(true);
@@ -87,6 +87,6 @@ public class Bot extends TelegramLongPollingBot {
     }
     @Override
     public String getBotToken() {
-        return "E";
+        return "z";
     }
 }

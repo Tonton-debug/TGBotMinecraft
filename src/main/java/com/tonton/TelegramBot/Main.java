@@ -6,9 +6,11 @@ import org.bukkit.Bukkit;
 import org.bukkit.GameRule;
 import org.bukkit.WorldCreator;
 import org.bukkit.WorldType;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
@@ -41,9 +43,14 @@ public class Main extends JavaPlugin implements Listener {
 	    		
 	    }
 	    @EventHandler
+	    public void OnLeave(PlayerQuitEvent e)
+	    {
+	    	bot.SendNotice(e.getPlayer().getName()+" ПОКИНУЛ ЭТОТ БРЕННЫЙ МИР\nТекущий онлайн:"+(Bukkit.getOnlinePlayers().size()-1));
+	    }
+	    @EventHandler
 	    public void OnJoin(PlayerJoinEvent e)
 	    {
-	    	bot.SendNotice();
+	    	bot.SendNotice("НА СЕРВЕР ЗАШЁЛ ИГРОК:"+e.getPlayer().getName()+"\nТекущий онлайн:"+Bukkit.getOnlinePlayers().size());
 	    }
 
 }
